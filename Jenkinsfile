@@ -15,17 +15,12 @@ pipeline {
 		gradle 'Gradle4.5_Centos'
 	}
 	
-	triggers {
-		cron('H */4 * * 1-5')
-	}
-	
 	stages{
 		
 		stage('Checkout') {
 			steps{
 				echo "------------>Checkout<------------"
 				git branch: 'master', credentialsId: 'GitHub_anfegagra', url: 'https://github.com/anfegagra/Ceiba-Estacionamiento.git'
-				sh 'gradle clean'
 			}
 		}
 		
@@ -43,13 +38,31 @@ pipeline {
 			}
 		}
 		
+		stage('Coverage Report') {
+			steps {
+				echo "------------>Coverage<------------"
+				sh 'gradle --b ./ceiba-estacionamiento/build.gradle jacocoTestReport'
+			
+			}
+		}
+		
+		stage('Integration Tests') {
+			steps {
+				echo "INTEGRATION TESTS"
+			
+			}
+		}
+		
 		stage('Static Code Analysis') {
-			steps{
-				echo '------------>Análisis de código estático<------------'
+			steps {
+				echo "STATIC CODE ANALYSIS"
+				
 				withSonarQubeEnv('Sonar') {
-					sh "${tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner"
+					sh "${tool name: 'SonarScanner',type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+				
 				}
 			}
+		
 		}
 		
 		stage('Build') {
