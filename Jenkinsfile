@@ -32,14 +32,14 @@ pipeline {
 		stage('Compile') {
 			steps{
 				echo "------------>Unit Tests<------------"
-				sh 'gradle --b ./build.gradle compileJava'
+				sh 'gradle --b ./ceiba-estacionamiento/build.gradle compileJava'
 			}
 		}
 		
 		stage('Unit Tests') {
 			steps{
 				echo "------------>Unit Tests<------------"
-				sh 'gradle --b ./build.gradle test'
+				sh 'gradle --b ./ceiba-estacionamiento/build.gradle test'
 			}
 		}
 		
