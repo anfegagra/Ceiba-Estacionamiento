@@ -27,21 +27,21 @@ pipeline {
 		stage('Compile') {
 			steps{
 				echo "------------>Unit Tests<------------"
-				sh 'gradle --b ./ceiba-estacionamiento/build.gradle compileJava'
+				sh 'gradle --b ./build.gradle compileJava'
 			}
 		}
 		
 		stage('Unit Tests') {
 			steps{
 				echo "------------>Unit Tests<------------"
-				sh 'gradle --b ./ceiba-estacionamiento/build.gradle test'
+				sh 'gradle --b ./build.gradle test'
 			}
 		}
 		
 		stage('Coverage') {
 			steps {
 				echo "------------>Coverage<------------"
-				sh 'gradle --b ./ceiba-estacionamiento/build.gradle jacocoTestReport'
+				sh 'gradle --b ./build.gradle jacocoTestReport'
 			
 			}
 		}
@@ -68,7 +68,7 @@ pipeline {
 		stage('Build') {
 			steps {
 				echo "------------>Build<------------"
-				sh 'gradle build -x test'
+				sh 'gradle build -x jacocoTestReport'
 			}
 		}
 	}
