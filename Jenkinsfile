@@ -38,7 +38,7 @@ pipeline {
 			}
 		}
 		
-		stage('Coverage Report') {
+		stage('Coverage') {
 			steps {
 				echo "------------>Coverage<------------"
 				sh 'gradle --b ./ceiba-estacionamiento/build.gradle jacocoTestReport'
