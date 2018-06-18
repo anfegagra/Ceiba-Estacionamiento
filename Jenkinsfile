@@ -26,7 +26,7 @@ pipeline {
 				'GitHub_anfegagra', url:
 				'https://github.com/anfegagra/Ceiba-Estacionamiento.git']]])
 			}
-}
+		}
 		
 		stage('Unit Tests') {
 			steps {
@@ -45,25 +45,21 @@ pipeline {
 		}
 		
 		stage('Static Code Analysis') {
-			steps {
-				echo "STATIC CODE ANALYSIS"
-				
+			steps{
+				echo '------------>Análisis de código estático<------------'
 				withSonarQubeEnv('Sonar') {
-					sh "%{tool name: 'SonarScanner',type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
-				
+					sh "${tool name: 'SonarScanner',
+					type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner"
 				}
 			}
-		
 		}
 		
 		stage('Build') {
-			steps {
+			steps{
 				echo "------------>Build<------------"
 				//Construir sin tarea test que se ejecutó previamente
 				sh 'gradle --b ./build.gradle build -x test'
-
 			}
-		
 		}
 	
 	
